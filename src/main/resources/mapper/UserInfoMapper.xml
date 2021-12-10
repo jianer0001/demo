@@ -1,0 +1,23 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.UserInfoMapper">
+    <update id="updateUserInfo" parameterType="com.example.demo.entity.UserInfoBean">
+        update userinfo
+        set name    = #{name},
+            age     = #{age},
+            gender  = #{gender},
+            address = #{address}
+        where id = #{id}
+    </update>
+    <delete id="deleteUserInfo">
+        delete from userinfo where id = #{id}
+    </delete>
+
+    <select id="getUserInfoById" resultType="com.example.demo.entity.UserInfoBean">
+        select *
+        from userinfo
+        where id = #{id}
+    </select>
+</mapper>
