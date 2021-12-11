@@ -68,3 +68,11 @@ spring.kafka.consumer.key-deserializer: org.apache.kafka.common.serialization.St
 spring.kafka.consumer.value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 #### kafka配置消费者 end ####
 
+fdfs:
+  soTimeout: 1500 #socket连接超时时长
+  connectTimeout: 600 #连接tracker服务器超时时长
+  thumbImage: #缩略图生成参数，可选
+    width: 150
+    height: 150
+  trackerList: #TrackerList参数,支持多个，我这里只有一个，如果有多个在下方加- x.x.x.x:port
+    - 192.168.0.102:22122
