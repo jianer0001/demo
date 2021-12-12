@@ -15,6 +15,9 @@
     <description>demo</description>
     <properties>
         <java.version>1.8</java.version>
+
+        <!--要与安装的elasticsearch的版本一样-->
+        <elasticsearch.version>7.14.1</elasticsearch.version>
     </properties>
     <dependencies>
         <dependency>
@@ -48,6 +51,10 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
 
         <dependency>

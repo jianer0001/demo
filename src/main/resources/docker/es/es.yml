@@ -1,0 +1,96 @@
+version: '3.9'
+services:
+  ESmaster:
+    image: elasticsearch:7.14.1
+    container_name: ESmaster
+    environment:
+      - node.name=ESmaster
+      - cluster.name=EScluster
+      - discovery.seed_hosts=my_elastcsearch2,my_elastcsearch3
+      - cluster.initial_master_nodes=ESmaster,my_elastcsearch2,my_elastcsearch3
+#      - discovery.seed_providers=ESmaster,my_elastcsearch2,my_elastcsearch3
+#      - network.host=0.0.0.0
+      - bootstrap.memory_lock=true
+#      - http.port=9200
+      - node.master=true
+      - node.data=true
+      - http.cors.allow-origin=*
+      - http.cors.enabled=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /opt/docker/data/elasticsearch/data/esmaster:/usr/share/elasticsearch/data
+      - /opt/docker/data/elasticsearch/logs/esmaster:/usr/share/elasticsearch/logs
+      - /opt/docker/data/elasticsearch/plugins/esmaster:/usr/share/elasticsearch/plugins
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    networks:
+      - mynet
+  my_elastcsearch2:
+    image: elasticsearch:7.14.1
+    container_name: my_elastcsearch2
+    environment:
+      - node.name=my_elastcsearch2
+      - cluster.name=EScluster
+      - discovery.seed_hosts=ESmaster,my_elastcsearch3
+      - cluster.initial_master_nodes=ESmaster,my_elastcsearch2,my_elastcsearch3
+#      - discovery.seed_providers=ESmaster,my_elastcsearch2,my_elastcsearch3
+#      - network.host=0.0.0.0
+      - bootstrap.memory_lock=true
+#      - http.port=9200
+      - node.master=false
+      - node.data=true
+      - http.cors.allow-origin=*
+      - http.cors.enabled=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /opt/docker/data/elasticsearch/data/my_elastcsearch2:/usr/share/elasticsearch/data
+      - /opt/docker/data/elasticsearch/logs/my_elastcsearch2:/usr/share/elasticsearch/logs
+      - /opt/docker/data/elasticsearch/plugins/my_elastcsearch2:/usr/share/elasticsearch/plugins
+    ports:
+      - "9202:9200"
+      - "9302:9300"
+    networks:
+      - mynet
+  my_elastcsearch3:
+    image: elasticsearch:7.14.1
+    container_name: my_elastcsearch3
+    environment:
+      - node.name=my_elastcsearch3
+      - cluster.name=EScluster
+      - discovery.seed_hosts=ESmaster,my_elastcsearch2
+      - cluster.initial_master_nodes=ESmaster,my_elastcsearch2,my_elastcsearch3
+#      - discovery.seed_providers=ESmaster,my_elastcsearch2,my_elastcsearch3
+#      - network.host=0.0.0.0
+      - bootstrap.memory_lock=true
+#      - http.port=9200
+      - node.master=true
+      - node.data=true
+      - http.cors.allow-origin=*
+      - http.cors.enabled=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /opt/docker/data/elasticsearch/data/my_elastcsearch3:/usr/share/elasticsearch/data
+      - /opt/docker/data/elasticsearch/logs/my_elastcsearch3:/usr/share/elasticsearch/logs
+      - /opt/docker/data/elasticsearch/plugins/my_elastcsearch3:/usr/share/elasticsearch/plugins
+    ports:
+      - "9203:9200"
+      - "9303:9300"
+    networks:
+      - mynet
+networks:
+  mynet:
+    driver: bridge
+
